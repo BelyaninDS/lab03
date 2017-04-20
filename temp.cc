@@ -1,7 +1,7 @@
 
 #include"temp.h"
 #include<sstream>
-
+#include<iostream>
 
 
 std::istream &operator >>(std::istream& stream, temperature &temp){
@@ -40,6 +40,29 @@ bool isless(temperature input1,temperature input2)
     else
         return 0;
 }
+
+bool check(temperature input)
+{
+    switch (input.scale){
+    case 'K':
+        if (input.value >= 0)
+            return 1;
+
+    case 'F':
+        if (input.value >= -169.44)
+            return 1;
+
+    case 'C':
+        if (input.value >= -273.15)
+            return 1;
+
+    default:
+        return 0;
+    }
+}
+
+
+
 
 //
 // Created by u211-04 on 20.04.2017.

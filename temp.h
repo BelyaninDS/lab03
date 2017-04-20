@@ -19,6 +19,8 @@ temperature convert(double &input,char &from, char to);
 
 bool isless(temperature input1,temperature input2);
 
+bool check(temperature input);
+
 #endif //UNTITLED_TEMPERATURE_H
 
 //

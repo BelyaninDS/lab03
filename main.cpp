@@ -56,8 +56,13 @@ int main(){
     }
 
     cerr<<"\nEnter an array of temperatures:";
-    for(i=0;i<count;i++)
+    for(i=0;i<count;i++) {
         cin >> arr[i];
+        if(check(arr[i]) == 0) {
+            cout << "\nError! Wrong temperature";
+            return 0;
+        }
+    }
 
     cerr << "\nEnter number of bins: ";
     cin >> columns;
