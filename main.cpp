@@ -1,100 +1,34 @@
 #include <iostream>
 #include <iomanip>
-#include <sstream>
-#include <assert.h>
+#include "temp.h"
+#include<assert.h>
+
 using namespace std;
 
 char scale[]={'K','F','C'};
-struct temperature
-{
-    double value;
-    char scale;
-};
-
-istream &operator >>(istream& stream, temperature &temp);
 
 void test_temperature_input(){
     temperature temp;
-    istringstream iss1("10K");
+    std::istringstream iss1("10K");
     iss1>>temp;
     assert(temp.value == 10);
     assert(temp.scale == 'K');
 
-    istringstream iss2("10F");
+    std::istringstream iss2("10F");
     iss2>>temp;
     assert(temp.value == 10);
     assert(temp.scale == 'F');
 
-    istringstream iss3("10C");
+    std::istringstream iss3("10C");
     iss3>>temp;
     assert(temp.value == 10);
     assert(temp.scale == 'C');
-}
-
-istream &operator >>(istream& stream, temperature &temp){
-    stream>>temp.value>>temp.scale;
-    return stream;
-}
-
-temperature convert(double &input,char &from, char to){
-switch (from) {
-    case 'K':
-        input -= 273;
-        break;
-    case 'F':
-        input = (5.0/9.0)*(input - 32);
-        break;
-    default:{}
-}
-
-switch(to){
-    case 'K':
-        input += 273;
-        break;
-    case 'F':
-        input = (9.0/5.0)*input + 32;
-        break;
-default:{}
-}
-from=to;
-
-}
-
-bool isless(temperature input1,temperature input2)
-{
-    if(input1.value<input2.value)
-        return 1;
-    else
-        return 0;
 }
 
 
 int main(){
 
     temperature temp;
-    /*test_temperature_input();
-
-    cout<<"\nEnter tempereture: ";
-
-    cin>>temp;
-    cout<<temp.value<<temp.scale;
-
-
-    char to;
-    cout<<"\nConvert to: ";
-    cin>>to;
-
-    convert(temp.value,temp.scale,to);
-    cout<<"\n"<<temp.value<<to;
-
-    temperature temp1,temp2;
-    cout<<"\nEnter temperatures to compare\n1: ";
-    cin>>temp1;
-    cout<<"\n2: ";
-    cin>>temp2;
-
-    isless(temp1,temp2);*/
-
 
     size_t columns=0,count=0,i,j,slen=0;
     cerr<<"Enter count: ";
