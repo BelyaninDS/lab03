@@ -42,17 +42,17 @@ switch (from) {
         input -= 273;
         break;
     case 'F':
-        input = (5/9)*(input - 32);
+        input = (5.0/9.0)*(input - 32);
         break;
     default:{}
 }
 
 switch(to){
     case 'K':
-        input = +273;
+        input += 273;
         break;
     case 'F':
-        input = (9/5)*input + 32;
+        input = (9.0/5.0)*input + 32;
         break;
 default:{}
 }
@@ -93,17 +93,17 @@ int main(){
     cout<<"\n2: ";
     cin>>temp2;
 
-    isless(temp1,temp2);
+    isless(temp1,temp2);*/
 
-    */
+
     size_t columns=0,count=0,i,j,slen=0;
     cerr<<"Enter count: ";
     cin>>count;
 
     temperature *arr = new temperature[count];
 
-    cerr<<"\nEnter lenght of string:";
-    cin>>slen;
+    cerr << "\nEnter lenght of string:";
+    cin >> slen;
 
     if(slen<7) {
         cout << "\nError! lenght of string cannot be lesser than 7"<<"\nEnter again:";
@@ -125,23 +125,27 @@ int main(){
     for(i=0;i<count;i++)
         cin >> arr[i];
 
-    cerr<<"\nEnter number of bins: ";
-    cin>>columns;
+    cerr << "\nEnter number of bins: ";
+    cin >> columns;
 
 
-    temperature max=arr[0],min=arr[0];
+    temperature max = arr[0],min = arr[0];
 
     for(i=0;i<count;i++){
-        if((isless(arr[i],min)==1))
-            min=arr[i];
-        if(isless(max,arr[i])==1)
-            max=arr[i];
+        if((isless(arr[i],min) == 1))
+            min = arr[i];
+        if(isless(max,arr[i]) == 1)
+            max = arr[i];
     }
+
     size_t *bins = new size_t[columns];
 
     for(i=0;i<columns;i++)
-        bins[i]=0;
+        bins[i] = 0;
 
+
+    convert(max.value,max.scale,'K');
+    convert(min.value,min.scale,'K');
 
     for(i=0;i<count;i++) {
         if (arr[i].scale != 'K')
@@ -152,10 +156,10 @@ int main(){
     }
 
 
-    size_t maxlen=arr[0].value;
-    for(i=0;i<count;i++){
-        if(arr[i].value>maxlen)
-            maxlen=arr[i].value;
+    size_t maxlen=bins[0];
+    for(i=0;i<columns;i++){
+        if(bins[i]>maxlen)
+            maxlen=bins[i];
     }
 
     float koef=1;
@@ -164,10 +168,9 @@ int main(){
 
 
 
-    for(i=0;i<count;i++){
+    for(i=0;i<columns;i++){
         cout<<"\n"<<setw(6)<<bins[i]<<"|";
-        arr[i].value *= koef;
-        for(j=0;j<bins[i];j++)
+        for(j=0;j<bins[i]*koef;j++)
             cout<<"*";
     }
 
