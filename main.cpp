@@ -38,21 +38,21 @@ istream &operator >>(istream& stream, temperature &temp){
 
 temperature convert(double &input,char &from, char to){
 switch (from) {
-    case 'C':
-        input += 273;
+    case 'K':
+        input -= 273;
         break;
     case 'F':
-        input = (5/9) * (input + 305);
+        input = (5/9)*(input - 32);
         break;
     default:{}
 }
 
 switch(to){
-    case 'C':
-        input -= 273;
+    case 'K':
+        input = +273;
         break;
     case 'F':
-        input = (9/5) * (input - 305);
+        input = (9/5)*input + 32;
         break;
 default:{}
 }
@@ -96,10 +96,9 @@ int main(){
     isless(temp1,temp2);
 
     */
-    size_t count=0,i,j,slen=0;
+    size_t columns=0,count=0,i,j,slen=0;
     cerr<<"Enter count: ";
     cin>>count;
-
 
     temperature *arr = new temperature[count];
 
@@ -111,12 +110,10 @@ int main(){
         cin >> slen;
     }
 
-
     if(slen>80) {
         cout << "\nError! lenght of string cannot be bigger than 80"<<"\nEnter again:";
         cin >> slen;
     }
-
 
     if(slen<(count/3)) {
         cout << "\nError! lenght of string cannot be lesser than 1/3 of count"<<"\nEnter "
@@ -124,14 +121,35 @@ int main(){
         cin >> slen;
     }
 
-
     cerr<<"\nEnter an array of temperatures:";
-    for(i=0;i<count;i++) {
+    for(i=0;i<count;i++)
         cin >> arr[i];
+
+    cerr<<"\nEnter number of bins: ";
+    cin>>columns;
+
+
+    temperature max=arr[0],min=arr[0];
+
+    for(i=0;i<count;i++){
+        if((isless(arr[i],min)==1))
+            min=arr[i];
+        if(isless(max,arr[i])==1)
+            max=arr[i];
+    }
+    size_t *bins = new size_t[columns];
+
+    for(i=0;i<columns;i++)
+        bins[i]=0;
+
+
+    for(i=0;i<count;i++) {
         if (arr[i].scale != 'K')
             convert(arr[i].value, arr[i].scale, 'K');
-    }
 
+        size_t index = (size_t)((arr[i].value - min.value)/(max.value - min.value)*(columns-1));
+        bins[index]++;
+    }
 
 
     size_t maxlen=arr[0].value;
@@ -147,14 +165,14 @@ int main(){
 
 
     for(i=0;i<count;i++){
-        cout<<"\n"<<setw(6)<<arr[i].value<<arr[i].scale<<"|";
+        cout<<"\n"<<setw(6)<<bins[i]<<"|";
         arr[i].value *= koef;
-        for(j=0;j<arr[i].value;j++)
+        for(j=0;j<bins[i];j++)
             cout<<"*";
     }
 
     delete[] arr;
-    //delete[] bins;
+    delete[] bins;
 
     return 0;
 }
