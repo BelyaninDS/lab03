@@ -1,11 +1,22 @@
 
 #include"temp.h"
-#include<sstream>
 #include<iostream>
+#include<assert.h>
+
+
+
 
 
 std::istream &operator >>(std::istream& stream, temperature &temp){
-    stream>>temp.value>>temp.scale;
+    stream >> temp.value;
+    char symbol;
+    stream >> symbol;
+    switch (symbol) {
+        case 'K': temp.scale = Kelvin; break;
+        case 'F': temp.scale = Fahrenheit; break;
+        case 'C': temp.scale = Celsius; break;
+        default : std::cerr<<"\nError! Wrong scale.";
+    }
     return stream;
 }
 
@@ -35,6 +46,8 @@ temperature convert(double &input,char &from, char to){
 
 bool isless(temperature input1,temperature input2)
 {
+    convert(input1.value,input1.scale,'K');
+    convert(input2.value,input2.scale,'K');
     if(input1.value<input2.value)
         return 1;
     else
@@ -43,23 +56,13 @@ bool isless(temperature input1,temperature input2)
 
 bool check(temperature input)
 {
-    switch (input.scale){
-    case 'K':
-        if (input.value >= 0)
-            return 1;
-
-    case 'F':
-        if (input.value >= -169.44)
-            return 1;
-
-    case 'C':
-        if (input.value >= -273.15)
-            return 1;
-
-    default:
+    convert(input.value,input.scale,'K');
+    if(input.value < 0)
+        return 1;
+    else
         return 0;
     }
-}
+
 
 
 

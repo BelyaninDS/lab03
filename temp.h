@@ -4,7 +4,11 @@
 #define UNTITLED_TEMPERATURE_H
 
 
-
+enum scale {
+    Kelvin = 'K',
+    Fahrenheit = 'F',
+    Celsius = 'K'
+};
 
 struct temperature
 {
